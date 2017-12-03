@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">UniversalApp</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_add">Add New User</string>
+    <string name="action_edit">Edit User</string>
+    <string name="action_delete">Delete User</string>
+    <string name="action_change">Change User</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="not_provided">Not provided!</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="done">done</string>
+    <string name="nameRquired">Name is required to register!</string>
+    <string name="surnameRquired">Surname is required to register!</string>
+    <string name="emailRquired">Email is required to register!</string>
+    <string name="passwordRquired">Password is required to register!</string>
+    <string name="user_register_done">You have been registered successfully</string>
+    <string name="user_register_failed">Error with your registration</string>
+    <string name="edit_user_successful">User saved</string>
+    <string name="edit_user_failed">Error while saving changes</string>
+    <string name="new_user">Register new user</string>
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="stay">Stay here</string>
+    <string name="delete_dialog_msg">Delete User?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_user_successful">User deleted</string>
+    <string name="delete_user_failed">Error with deleting user</string>
+    <string name="clicked">Clicked on Button</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
