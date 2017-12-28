@@ -1,5 +1,6 @@
 package com.android.al3arrab.universalapp;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -19,8 +20,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -28,8 +28,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng zagreb = new LatLng(45, 15);
+        LatLng zagreb = new LatLng(45.815011, 15.981919);
         mMap.addMarker(new MarkerOptions().position(zagreb).title("Marker in Zagreb"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(zagreb));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        data.putExtra("resultCode", resultCode);
     }
 }

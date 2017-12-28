@@ -37,9 +37,9 @@ public class UserCursorAdapter extends CursorAdapter {
 
         myContext = context;
 
-        TextView fullnameTextView = (TextView) view.findViewById(R.id.tvFullName);
-        TextView emailTextView = (TextView) view.findViewById(R.id.tvEmail);
-        ImageView imgImageView = (ImageView) view.findViewById(R.id.imageView);
+        TextView fullnameTextView = view.findViewById(R.id.tvFullName);
+        TextView emailTextView = view.findViewById(R.id.tvEmail);
+        ImageView imgImageView = view.findViewById(R.id.imageView);
 
         int idColumnIndex = cursor.getColumnIndex(UserEntry._ID);
         int statusColumnIndex = cursor.getColumnIndex(UserEntry.COLUMN_USER_STATUS);
@@ -55,7 +55,7 @@ public class UserCursorAdapter extends CursorAdapter {
         final String userEmail = cursor.getString(emailColumnIndex);
         final String userImage = cursor.getString(ImgColumnIndex);
 
-        if (userStatus.equals("activ")){
+        if (userStatus.equals("active")){
             fullnameTextView.setText(String.format("%s! %s!", userName, userSurname));
             emailTextView.setText(userEmail);
 

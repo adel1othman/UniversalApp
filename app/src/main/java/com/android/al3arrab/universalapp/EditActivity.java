@@ -79,7 +79,7 @@ public class EditActivity extends AppCompatActivity {
         mSurnameEditText = findViewById(R.id.edtTxtSurname);
         mEmailEditText = findViewById(R.id.edtTxtEmail);
         mPassEditText = findViewById(R.id.edtTxtPass);
-        myImg = (ImageView)findViewById(R.id.myImg);
+        myImg = findViewById(R.id.myImg);
 
         int idColumnIndex = cursor.getColumnIndex(UserEntry._ID);
         int statusColumnIndex = cursor.getColumnIndex(UserEntry.COLUMN_USER_STATUS);
@@ -168,7 +168,7 @@ public class EditActivity extends AppCompatActivity {
             values.put(UserEntry.COLUMN_USER_IMAGE, imagePath);
         }
 
-        values.put(UserEntry.COLUMN_USER_STATUS, "activ");
+        values.put(UserEntry.COLUMN_USER_STATUS, "active");
 
         int rowsUpdated = contentResolver.update(mCurrentUserUri, values, null, null);
 

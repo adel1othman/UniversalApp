@@ -45,11 +45,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
-        mNameEditText = (EditText) findViewById(R.id.edtTxtName);
-        mSurnameEditText = (EditText) findViewById(R.id.edtTxtSurname);
-        mEmailEditText = (EditText) findViewById(R.id.edtTxtEmail);
+        mNameEditText = findViewById(R.id.edtTxtName);
+        mSurnameEditText = findViewById(R.id.edtTxtSurname);
+        mEmailEditText = findViewById(R.id.edtTxtEmail);
         mPassEditText = findViewById(R.id.edtTxtPass);
-        myImg = (ImageView)findViewById(R.id.myImg);
+        myImg = findViewById(R.id.myImg);
     }
 
     public void BtnRegisterClick(View v)
@@ -86,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
         values.put(UserEntry.COLUMN_USER_PASSWORD, passwordString);
 
         values.put(UserEntry.COLUMN_USER_IMAGE, imagePath);
-        values.put(UserEntry.COLUMN_USER_STATUS, "activ");
+        values.put(UserEntry.COLUMN_USER_STATUS, "active");
 
         Uri newUri = this.getContentResolver().insert(UserEntry.CONTENT_URI, values);
 

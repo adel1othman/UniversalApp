@@ -1,20 +1,24 @@
 package com.android.al3arrab.universalapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +39,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.al3arrab.universalapp.Dama.DamaActivity;
+import com.android.al3arrab.universalapp.MusicPlayer.PlayerActivity;
+import com.android.al3arrab.universalapp.Scanner.FullScannerActivity;
+import com.android.al3arrab.universalapp.Youtube.YouTubeActivity;
 import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
 import com.android.al3arrab.universalapp.data.RegisterDbHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,9 +54,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RegisterDbHelper mDbHelper;
-    int currentUserID = -1;
+    public static int currentUserID = -1;
     private ListUsersCursorAdapter mCursorAdapter;
     private Uri mCurrentUserUri;
+    private static final int ZXING_CAMERA_PERMISSION = 1;
+    private Class<?> mClss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,27 +68,27 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TextView fullnameTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvFullName);
-        TextView emailTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
-        ImageView imgImageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        TextView fullnameTextView = navigationView.getHeaderView(0).findViewById(R.id.tvFullName);
+        TextView emailTextView = navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
+        ImageView imgImageView = navigationView.getHeaderView(0).findViewById(R.id.imageView);
 
         mDbHelper = new RegisterDbHelper(this);
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
@@ -88,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         int icount = mcursor.getInt(0);
         mcursor.close();
         if(icount>0){
-            String qwery = "SELECT * FROM users WHERE status LIKE 'activ'";
+            String qwery = "SELECT * FROM users WHERE status LIKE 'active'";
             Cursor cursor = database.rawQuery(qwery, null);
 
             int idColumnIndex = cursor.getColumnIndex(UserEntry._ID);
@@ -177,7 +187,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(View v) {
                                 SQLiteDatabase database = mDbHelper.getReadableDatabase();
-                                String qwery = "SELECT password FROM users WHERE _ID = '" + id + "'";
+                                String qwery = "SELECT password FROM users WHERE _ID = " + id;
                                 Cursor cursor = database.rawQuery(qwery, null);
                                 int idColumnIndex = cursor.getColumnIndex(UserEntry.COLUMN_USER_PASSWORD);
                                 String password = "";
@@ -190,9 +200,9 @@ public class MainActivity extends AppCompatActivity
                                 if (pass.getText().toString().equals(password)){
                                     mDbHelper = new RegisterDbHelper(getBaseContext());
                                     database = mDbHelper.getWritableDatabase();
-                                    String strSQL = "UPDATE users SET status = 'nonactiv' WHERE _ID = "+ currentUserID;
+                                    String strSQL = "UPDATE users SET status = '0' WHERE _ID = "+ currentUserID;
                                     database.execSQL(strSQL);
-                                    String strSQL1 = "UPDATE users SET status = 'activ' WHERE _ID = "+ id;
+                                    String strSQL1 = "UPDATE users SET status = 'active' WHERE _ID = "+ id;
                                     database.execSQL(strSQL1);
 
                                     finish();
@@ -228,23 +238,57 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_scanner:
+                launchActivity(FullScannerActivity.class);
+                /*Intent intentS = new Intent(this, FullScannerActivity.class);
+                startActivity(intentS);*/
+                break;
+            case R.id.nav_music_player:
+                Intent intentMP = new Intent(this, PlayerActivity.class);
+                startActivity(intentMP);
+                break;
+            case R.id.nav_youtube:
+                Intent intentYT = new Intent(this, YouTubeActivity.class);
+                startActivity(intentYT);
+                break;
+            case R.id.nav_simple_dama:
+                Intent intentD = new Intent(this, DamaActivity.class);
+                startActivity(intentD);
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void launchActivity(Class<?> clss) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            mClss = clss;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
+        } else {
+            Intent intent = new Intent(this, clss);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case ZXING_CAMERA_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(mClss != null) {
+                        Intent intent = new Intent(this, mClss);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(this, "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
     }
 
     private void showUnsavedChangesDialog(
@@ -261,6 +305,12 @@ public class MainActivity extends AppCompatActivity
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        finish();
+        super.onDestroy();
     }
 
     private void deleteUser() {
@@ -295,7 +345,7 @@ public class MainActivity extends AppCompatActivity
                     cursor.close();
 
                     database = mDbHelper.getWritableDatabase();
-                    String strSQL2 = "UPDATE users SET status = 'activ' WHERE _ID = "+ newUserID;
+                    String strSQL2 = "UPDATE users SET status = 'active' WHERE _ID = "+ newUserID;
                     database.execSQL(strSQL2);
                     finish();
                     startActivity(getIntent());

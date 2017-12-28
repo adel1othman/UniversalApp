@@ -5,6 +5,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +22,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_api_key" />
 
         <activity
             android:name=".MainActivity"
@@ -55,7 +61,7 @@
         android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NewUserActivity" />
+                android:value=".MainActivity" />
     </activity>
         <activity
             android:name=".MapsActivity"
@@ -65,6 +71,89 @@
             android:name=".data.RegisterProvider"
             android:authorities="com.android.al3arrab.universalapp"
             android:exported="false" />
+        <activity
+            android:name=".MusicPlayer.PlayerActivity"
+            android:label="@string/allSongs"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".MusicPlayer.SongsList"
+            android:label="@string/allSongs"
+            android:parentActivityName=".MusicPlayer.PlayerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MusicPlayer.PlayerActivity" />
+        </activity>
+        <activity
+            android:name=".MusicPlayer.MyPlayer"
+            android:label="@string/now"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".MusicPlayer.PlayerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MusicPlayer.PlayerActivity" />
+        </activity>
+        <activity
+            android:name=".MusicPlayer.Visualizer.SettingsActivity"
+            android:label="@string/action_vizulizer_settings"
+            android:parentActivityName=".MusicPlayer.MyPlayer">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MusicPlayer.MyPlayer" />
+        </activity>
+        <!--<activity
+            android:name=".Youtube.VideoListActivity"
+            android:label="@string/you_tube"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+            <meta-data android:name="@string/minVersion" android:value="13"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>-->
+        <activity
+            android:name=".Youtube.YouTubeActivity"
+            android:label="@string/you_tube"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+            <meta-data android:name="@string/minVersion" android:value="13"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+        <activity
+            android:name=".Dama.DamaActivity"
+            android:label="@string/dama"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".Scanner.FullScannerActivity"
+            android:theme="@style/AppOverlayTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:label="@string/scanner_activity"
+            android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".Scanner.AssignActivity"
+            android:label="@string/assign"
+            android:parentActivityName=".Scanner.FullScannerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Scanner.FullScannerActivity" />
+        </activity>
     </application>
 
 </manifest>

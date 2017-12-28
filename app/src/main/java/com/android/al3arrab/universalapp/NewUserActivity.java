@@ -48,11 +48,11 @@ public class NewUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newuser);
 
-        mNameEditText = (EditText) findViewById(R.id.edtTxtName);
-        mSurnameEditText = (EditText) findViewById(R.id.edtTxtSurname);
-        mEmailEditText = (EditText) findViewById(R.id.edtTxtEmail);
+        mNameEditText = findViewById(R.id.edtTxtName);
+        mSurnameEditText = findViewById(R.id.edtTxtSurname);
+        mEmailEditText = findViewById(R.id.edtTxtEmail);
         mPassEditText = findViewById(R.id.edtTxtPass);
-        myImg = (ImageView)findViewById(R.id.myImg);
+        myImg = findViewById(R.id.myImg);
     }
 
     public void BtnNewRegisterClick(View v)
@@ -89,7 +89,7 @@ public class NewUserActivity extends AppCompatActivity {
         values.put(UserEntry.COLUMN_USER_PASSWORD, passwordString);
 
         values.put(UserEntry.COLUMN_USER_IMAGE, imagePath);
-        values.put(UserEntry.COLUMN_USER_STATUS, "activ");
+        values.put(UserEntry.COLUMN_USER_STATUS, "active");
 
         Uri newUri = this.getContentResolver().insert(UserEntry.CONTENT_URI, values);
 
@@ -101,7 +101,7 @@ public class NewUserActivity extends AppCompatActivity {
             mDbHelper = new RegisterDbHelper(getBaseContext());
             int previousUserID = getIntent().getExtras().getInt("CUID");
             SQLiteDatabase database = mDbHelper.getWritableDatabase();
-            String strSQL = "UPDATE users SET status = 'nonactiv' WHERE _ID = "+ previousUserID;
+            String strSQL = "UPDATE users SET status = '0' WHERE _ID = "+ previousUserID;
             database.execSQL(strSQL);
 
             Intent intent = new Intent(NewUserActivity.this, MainActivity.class);

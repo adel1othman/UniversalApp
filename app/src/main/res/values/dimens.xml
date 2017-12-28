@@ -10,4 +10,5 @@
     <dimen name="dp2">2dp</dimen>
     <dimen name="sp25">25sp</dimen>
     <dimen name="dp250">250dp</dimen>
+    <dimen name="list_item_height">88dp</dimen>
 </resources>
