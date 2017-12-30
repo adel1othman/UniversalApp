@@ -1,7 +1,6 @@
 package com.android.al3arrab.universalapp.Scanner;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +14,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -24,7 +22,6 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.al3arrab.universalapp.ListUsersCursorAdapter;
 import com.android.al3arrab.universalapp.MainActivity;
 import com.android.al3arrab.universalapp.R;
 import com.android.al3arrab.universalapp.data.RegisterContract;
