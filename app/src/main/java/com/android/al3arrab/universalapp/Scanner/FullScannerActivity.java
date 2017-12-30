@@ -126,7 +126,6 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
                 Intent goToMain = new Intent(this, MainActivity.class);
                 startActivity(goToMain);
             case R.id.menu_flash:
@@ -164,7 +163,6 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
         Intent goToMain = new Intent(this, MainActivity.class);
         startActivity(goToMain);
     }
