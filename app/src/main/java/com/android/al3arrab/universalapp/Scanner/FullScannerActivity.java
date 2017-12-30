@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -14,6 +15,10 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -120,6 +125,10 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                Intent goToMain = new Intent(this, MainActivity.class);
+                startActivity(goToMain);
             case R.id.menu_flash:
                 mFlash = !mFlash;
                 if(mFlash) {
@@ -153,6 +162,14 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent goToMain = new Intent(this, MainActivity.class);
+        startActivity(goToMain);
+    }
+
+    @Override
     public void handleResult(final Result rawResult) {
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -169,6 +186,8 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
         int codeColumnIndex = cursor.getColumnIndex(RegisterContract.UserEntry.COLUMN_USER_CODE);
         boolean assigned = false;
 
+        String result = rawResult.getText();
+
         if (cursor.moveToFirst()) {
             do {
                 final int userID = cursor.getInt(idColumnIndex);
@@ -176,11 +195,27 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
 
                 if (rawResult.getText().equals(userCode) && currentUserID == userID){
                     assigned = true;
-                    Toast.makeText(this, "Scanned code " + rawResult.getText() + " is assigned to currently active user", Toast.LENGTH_LONG).show();
+
+                    String text = "Scanned code " + result + " is assigned to currently active user";
+                    SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+
+                    ssBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf(result), (text.indexOf(result) + result.length()),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+
+                    Toast.makeText(this, ssBuilder, Toast.LENGTH_LONG).show();
                     Intent goToMain = new Intent(this, MainActivity.class);
                     startActivity(goToMain);
                 }else if (rawResult.getText().equals(userCode) && currentUserID != userID){
                     assigned = true;
+
+                    String text = "Scanned code " + result + " is assigned to another user, do you want to activate this user?";
+                    SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+
+                    ssBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf(result), (text.indexOf(result) + result.length()),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+
                     DialogInterface.OnClickListener discardButtonClickListener =
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -193,7 +228,7 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
                                     startActivity(intent);
                                 }
                             };
-                    showChangeUserDialog("Scanned code " + rawResult.getText() + " is assigned to another user, do you want to activate this user?", discardButtonClickListener);
+                    showChangeUserDialog(ssBuilder, discardButtonClickListener);
                 }
             } while (cursor.moveToNext());
         }
@@ -206,7 +241,7 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
         }
     }
 
-    private void showChangeUserDialog(String message,
+    private void showChangeUserDialog(SpannableStringBuilder message,
             DialogInterface.OnClickListener discardButtonClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
@@ -229,6 +264,12 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
         }
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
 
     public void showMessageDialog(String message) {

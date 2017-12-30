@@ -6,8 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -39,13 +44,19 @@ public class AssignActivity extends AppCompatActivity {
 
         final ListView usersListView = findViewById(R.id.UsersList);
         result  = getIntent().getStringExtra("ScanResult");
+        String text = "Scanned code " + result + " is not assigned to any user, do you want to assign it now?";
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+
+        ssBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf(result), (text.indexOf(result) + result.length()),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
 
         DialogInterface.OnClickListener discardButtonClickListener =
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-
+                        yesClicked = true;
                         mDbHelper = new RegisterDbHelper(getBaseContext());
                         SQLiteDatabase database = mDbHelper.getReadableDatabase();
                         String users = "SELECT * FROM users";
@@ -83,7 +94,6 @@ public class AssignActivity extends AppCompatActivity {
                                             String strSQL1 = "UPDATE users SET status = 'active', code = '" + result + "' WHERE _ID = "+ id;
                                             database.execSQL(strSQL1);
 
-                                            finish();
                                             Intent intent = new Intent(getBaseContext(), MainActivity.class);
                                             startActivity(intent);
                                         }else {
@@ -96,10 +106,18 @@ public class AssignActivity extends AppCompatActivity {
                         });
                     }
                 };
-        showAssignCodeToUserDialog("Scanned code " + result + " is not assigned to any user, do you want to assign it now?", discardButtonClickListener);
+        showAssignCodeToUserDialog(ssBuilder, discardButtonClickListener);
     }
 
-    private void showAssignCodeToUserDialog(String message,
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+    private boolean yesClicked = false;
+
+    private void showAssignCodeToUserDialog(SpannableStringBuilder message,
                                             DialogInterface.OnClickListener discardButtonClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
@@ -111,6 +129,17 @@ public class AssignActivity extends AppCompatActivity {
                 }
             }
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    if (!yesClicked){
+                        Intent intent = new Intent(getBaseContext(), FullScannerActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
