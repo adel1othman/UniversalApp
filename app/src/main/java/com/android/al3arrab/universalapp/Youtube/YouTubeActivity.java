@@ -76,8 +76,8 @@ public class YouTubeActivity extends AppCompatActivity implements OnFullscreenLi
         videoFragment = (VideoFragment) getFragmentManager().findFragmentById(R.id.video_fragment_container);
         videoBox = findViewById(R.id.video_box);
         closeButton = findViewById(R.id.close_button);
-        videoListView = (ListView) findViewById(R.id.videoList);
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        videoListView = findViewById(R.id.videoList);
+        mEmptyStateTextView = findViewById(R.id.empty_view);
         listLayout = findViewById(R.id.list_lay);
 
 
@@ -113,8 +113,8 @@ public class YouTubeActivity extends AppCompatActivity implements OnFullscreenLi
             }
         };
 
-        loadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-        search = (EditText)findViewById(R.id.etSearch);
+        loadingIndicator = findViewById(R.id.loading_indicator);
+        search = findViewById(R.id.etSearch);
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -148,7 +148,9 @@ public class YouTubeActivity extends AppCompatActivity implements OnFullscreenLi
                                             videoListView.setEmptyView(mEmptyStateTextView);
                                         }else {
                                             String searchQuery = wordsCounter(s.toString());
-                                            REQUEST_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&type=video&order=viewCount&key=AIzaSyD9ifawjJ9kor2K67gO2gHbwhH-XnxvyAs&q=" + searchQuery;
+                                            REQUEST_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&order=viewCount&type=video&key="
+                                                    + getResources().getString(R.string.google_api_key)
+                                                    + "&q=" + searchQuery;
                                             mAdapter = new YTAdapter(getBaseContext(), new ArrayList<YTVideo>());
 
                                             videoListView.setAdapter(mAdapter);

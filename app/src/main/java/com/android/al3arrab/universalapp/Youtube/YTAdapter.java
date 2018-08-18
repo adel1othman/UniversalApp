@@ -13,10 +13,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
-/**
- * Created by Adel on 5/24/2017.
- */
-
 public class YTAdapter extends ArrayAdapter<YTVideo> {
 
     public YTAdapter(Context context, List<YTVideo> videos) {
@@ -33,10 +29,10 @@ public class YTAdapter extends ArrayAdapter<YTVideo> {
 
         YTVideo currentVideo = getItem(position);
 
-        TextView titleView = (TextView) listItemView.findViewById(R.id.txtTitle);
+        TextView titleView = listItemView.findViewById(R.id.txtTitle);
         titleView.setText(currentVideo.getmTitle());
 
-        ImageView imageView = (ImageView) listItemView.findViewById(R.id.img);
+        ImageView imageView = listItemView.findViewById(R.id.img);
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(currentVideo.getmImageURL(), imageView);
 

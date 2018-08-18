@@ -6,10 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
 
-/**
- * Created by Adel on 6/9/2017.
- */
-
 public class RegisterDbHelper extends SQLiteOpenHelper {
 
     public static final String LOG_TAG = RegisterDbHelper.class.getSimpleName();

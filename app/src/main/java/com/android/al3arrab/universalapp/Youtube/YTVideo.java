@@ -1,9 +1,5 @@
 package com.android.al3arrab.universalapp.Youtube;
 
-/**
- * Created by Adel on 5/24/2017.
- */
-
 public class YTVideo {
 
     private String mID;

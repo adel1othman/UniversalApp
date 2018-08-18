@@ -1,7 +1,5 @@
 package com.android.al3arrab.universalapp;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,10 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
-
-/**
- * Created by Adel on 6/9/2017.
- */
 
 public class UserCursorAdapter extends CursorAdapter {
 

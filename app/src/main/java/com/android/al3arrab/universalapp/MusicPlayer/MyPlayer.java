@@ -35,13 +35,8 @@ import com.android.al3arrab.universalapp.MusicPlayer.Visualizer.SettingsActivity
 import com.android.al3arrab.universalapp.R;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
-/**
- * Created by Adel on 5/10/2017.
- */
 
 public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 

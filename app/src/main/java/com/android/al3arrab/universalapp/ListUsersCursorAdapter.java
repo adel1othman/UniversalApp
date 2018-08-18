@@ -12,10 +12,6 @@ import android.widget.TextView;
 
 import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
 
-/**
- * Created by Adel on 6/9/2017.
- */
-
 public class ListUsersCursorAdapter extends CursorAdapter {
 
     private Context myContext;

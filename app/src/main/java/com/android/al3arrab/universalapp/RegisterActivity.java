@@ -2,20 +2,14 @@ package com.android.al3arrab.universalapp;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.LoaderManager;
 import android.content.ContentValues;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,10 +19,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
-
-/**
- * Created by Adel on 11/25/2017.
- */
 
 public class RegisterActivity extends AppCompatActivity {
 

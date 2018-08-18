@@ -1,8 +1,6 @@
 package com.android.al3arrab.universalapp.MusicPlayer;
 
 import android.database.Cursor;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.TaskStackBuilder;
@@ -11,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.android.al3arrab.universalapp.R;
-import com.android.al3arrab.universalapp.Utility;
 
 import java.io.File;
 import java.util.ArrayList;

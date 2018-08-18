@@ -6,10 +6,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 
-/**
- * Created by Adel on 6/9/2017.
- */
-
 public final class RegisterContract {
 
     private RegisterContract() {}

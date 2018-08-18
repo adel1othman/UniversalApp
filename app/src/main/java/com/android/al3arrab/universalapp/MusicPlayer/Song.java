@@ -1,9 +1,5 @@
 package com.android.al3arrab.universalapp.MusicPlayer;
 
-/**
- * Created by Adel on 5/10/2017.
- */
-
 public class Song {
     private int mArtistName;
     private int mImageResourceId;

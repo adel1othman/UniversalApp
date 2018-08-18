@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.al3arrab.universalapp">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -20,8 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
+        <meta-data android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_api_key" />
 
         <activity
@@ -58,7 +60,8 @@
         android:name=".NewUserActivity"
         android:theme="@style/AppTheme"
         android:label="@string/action_add"
-        android:parentActivityName=".MainActivity" >
+        android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

@@ -100,7 +100,7 @@
 
     <string name="search_yt">Search YouTube</string>
     <string name="no_videos">No videos found.</string>
-    <string name="yt_searching">Searching YouTube...</string>
+    <string name="yt_searching">Searching YouTube…</string>
     <string name="no_internet_connection">No internet connection.</string>
     <string name="you_tube">YouTube</string>
     <string name="videolist_name">Video List</string>

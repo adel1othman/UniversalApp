@@ -1,6 +1,5 @@
 package com.android.al3arrab.universalapp.Dama;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,10 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.android.al3arrab.universalapp.MainActivity;
@@ -40,7 +37,7 @@ public class DamaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dama);
 
-        mainLayout = (RelativeLayout) findViewById(R.id.activity_main);
+        mainLayout = findViewById(R.id.activity_main);
 
         win = new String[6];
         win[0] = "111";

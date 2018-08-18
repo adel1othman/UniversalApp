@@ -20,10 +20,6 @@ import static com.android.al3arrab.universalapp.Dama.DamaActivity.shapesBlue;
 import static com.android.al3arrab.universalapp.Dama.DamaActivity.shapesGreen;
 import static com.android.al3arrab.universalapp.Dama.DamaActivity.win;
 
-/**
- * Created by Adel on 2/22/2017.
- */
-
 public class MovementLogic implements View.OnTouchListener {
     /**
      * Callback used to indicate when the drag is finished

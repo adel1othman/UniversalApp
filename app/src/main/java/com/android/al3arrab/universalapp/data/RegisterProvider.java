@@ -12,10 +12,6 @@ import android.widget.Toast;
 
 import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
 
-/**
- * Created by Adel on 6/9/2017.
- */
-
 public class RegisterProvider extends ContentProvider {
 
     public static final String LOG_TAG = RegisterProvider.class.getSimpleName();

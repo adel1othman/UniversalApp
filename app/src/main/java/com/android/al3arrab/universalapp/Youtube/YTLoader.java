@@ -5,10 +5,6 @@ import android.content.Context;
 
 import java.util.List;
 
-/**
- * Created by Adel on 5/24/2017.
- */
-
 public class YTLoader extends AsyncTaskLoader<List<YTVideo>> {
 
     private String mUrl;

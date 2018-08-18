@@ -16,10 +16,6 @@ import com.android.al3arrab.universalapp.R;
 import java.io.File;
 import java.util.ArrayList;
 
-/**
- * Created by Adel on 5/10/2017.
- */
-
 public class SongsList extends AppCompatActivity {
 
     @Override

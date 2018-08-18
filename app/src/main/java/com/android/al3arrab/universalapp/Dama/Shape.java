@@ -1,11 +1,6 @@
 package com.android.al3arrab.universalapp.Dama;
 
-import android.graphics.Point;
 import android.widget.ImageView;
-
-/**
- * Created by Adel on 6/17/2017.
- */
 
 public class Shape{
 
