@@ -38,7 +38,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import static com.android.al3arrab.universalapp.MainActivity.songs;
+
 public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    /*public static final String PLAYBACK_STATE_KEY = "PLAYBACK_STATE_KEY";
+    public static final String SONG_ID_KEY = "SONG_ID_KEY";*/
 
     private static final int MY_PERMISSION_RECORD_AUDIO_REQUEST_CODE = 88;
     private VisualizerView mVisualizerView;
@@ -80,7 +85,6 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
     SeekBar seekBar;
     int songId, songIndex, currentTime, skBarProgress;
     String songID;
-    ArrayList<Song> songs;
     Handler myHandler = new Handler();
     boolean firstTime = true;
 
@@ -90,53 +94,31 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         setContentView(R.layout.player);
         mVisualizerView = findViewById(R.id.activity_visualizer);
 
+        if (songs == null || songs.size() == 0){
+            new SongsList();
+            songs = SongsList.getAllSongs(this);
+        }
+
         if (getIntent().hasExtra("intSongID")){
             songId  = getIntent().getIntExtra("intSongID", 0);
         }else {
             songID  = getIntent().getStringExtra("StringSongID");
         }
 
-
         mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 
-        song = (TextView)findViewById(R.id.songName);
-        artist = (TextView)findViewById(R.id.artistName);
-        album = (ImageView)findViewById(R.id.albumImage);
-        progressTime = (TextView)findViewById(R.id.startTime);
-        fullTime = (TextView)findViewById(R.id.fullTime);
-        seekBar = (SeekBar)findViewById(R.id.seekbar);
-        prev = (Button)findViewById(R.id.btnPrev);
-        play = (Button)findViewById(R.id.btnPlay);
-        pause = (Button)findViewById(R.id.btnPause);
-        next = (Button)findViewById(R.id.btnNext);
-
-        songs = new ArrayList<Song>();
-        songs.add(new Song(R.string.aho, R.string.amr, R.raw.aho_lel_we_adda, R.drawable.shoft));
-        songs.add(new Song(R.string.atr, R.string.ahmed, R.raw.atr_el_hayah, R.drawable.mekky));
-        songs.add(new Song(R.string.dawar, R.string.ahmed, R.raw.dawar_benafsak, R.drawable.mekky));
-        songs.add(new Song(R.string.elhassah, R.string.ahmed, R.raw.el_hassah_el_sabaa, R.drawable.mekky));
-        songs.add(new Song(R.string.elhelm, R.string.ahmed, R.raw.el_helm, R.drawable.mekky));
-        songs.add(new Song(R.string.elleila, R.string.amr, R.raw.el_leila, R.drawable.wayah));
-        songs.add(new Song(R.string.shoft, R.string.amr, R.raw.shoft_el_ayam, R.drawable.shoft));
-        songs.add(new Song(R.string.srce, R.string.nzb, R.raw.srce_vatreno, R.drawable.srce));
-        songs.add(new Song(R.string.svad, R.string.alex, R.raw.svadiba, R.drawable.svadiba));
-        songs.add(new Song(R.string.terca, R.string.silente, R.raw.terca_na_tisinu, R.drawable.silente));
-        songs.add(new Song(R.string.pirate, R.string.dk, R.raw.the_pirate_bay_song, R.drawable.dubioza));
-        songs.add(new Song(R.string.treble, R.string.svadbas, R.raw.treblebass, R.drawable.treblebass));
-        songs.add(new Song(R.string.wayah, R.string.amr, R.raw.wayah, R.drawable.wayah));
-        songs.add(new Song(R.string.zorica, R.string.mejasi, R.raw.zorica, R.drawable.zorica));
-
-        String[] myMusic = getMusic();
-        for (String item:myMusic) {
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-            String path = extStorageDirectory + File.separator + item;
-
-            songs.add(new Song(item, R.string.unknown_artist, path, R.drawable.unknown_music));
-        }
+        song = findViewById(R.id.songName);
+        artist = findViewById(R.id.artistName);
+        album = findViewById(R.id.albumImage);
+        progressTime = findViewById(R.id.startTime);
+        fullTime = findViewById(R.id.fullTime);
+        seekBar = findViewById(R.id.seekbar);
+        prev = findViewById(R.id.btnPrev);
+        play = findViewById(R.id.btnPlay);
+        pause = findViewById(R.id.btnPause);
+        next = findViewById(R.id.btnNext);
 
         play.setEnabled(false);
-
-        //releaseMediaPlayer();
 
         int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
@@ -163,6 +145,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentTime = 0;
                 pause.setEnabled(true);
                 play.setEnabled(false);
                 songIndex--;
@@ -177,6 +160,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentTime = 0;
                 pause.setEnabled(true);
                 play.setEnabled(false);
                 songIndex++;
@@ -247,7 +231,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
             } while (mCursor.moveToNext());
         }
 
-        mCursor.close();
+        //mCursor.close();
 
         return songs;
     }
@@ -392,6 +376,11 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         if (!firstTime){
             mAudioInputReader = new AudioInputReader(mVisualizerView, this, mMediaPlayer);
         }
+
+        if (currentTime != 0){
+            mMediaPlayer.seekTo(currentTime);
+        }
+
         mMediaPlayer.start();
         mMediaPlayer.setOnCompletionListener(mCompletionListener);
 
@@ -414,7 +403,30 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         }
     };
 
-    @Override
-    public void onBackPressed() {
+    /*@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(PLAYBACK_STATE_KEY, currentTime);
+        outState.putInt(SONG_ID_KEY, songIndex);
     }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null){
+            currentTime = savedInstanceState.getInt(PLAYBACK_STATE_KEY);
+            songIndex = savedInstanceState.getInt(SONG_ID_KEY);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (songs != null){
+            onSongChanged();
+        }
+    }*/
 }

@@ -26,27 +26,27 @@ public class Song {
         mImageResourceId = imageResourceId;
     }
 
-    int getmSongName() {
+    public int getmSongName() {
         return mSongName;
     }
 
-    int getmArtistName() {
+    public int getmArtistName() {
         return mArtistName;
     }
 
-    int getmAudioResourceId() {
+    public int getmAudioResourceId() {
         return mAudioResourceId;
     }
 
-    int getmImageResourceId() {
+    public int getmImageResourceId() {
         return mImageResourceId;
     }
 
-    String getmStringSongName() {
+    public String getmStringSongName() {
         return mStringSongName;
     }
 
-    String getmAudioResourcePath() {
+    public String getmAudioResourcePath() {
         return mAudioResourcePath;
     }
 

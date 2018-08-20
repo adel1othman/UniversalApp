@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.android.al3arrab.universalapp">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -21,10 +21,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_api_key" />
+
+        <receiver android:name=".NowPlayingWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/now_playing_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".ListViewWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
             android:name=".MainActivity"
@@ -37,43 +53,34 @@
             </intent-filter>
         </activity>
         <activity
-        android:name=".RegisterActivity"
-        android:theme="@style/AppTheme"
-        android:label="@string/register">
-        <!--android:parentActivityName=".MainActivity" >
-        &lt;!&ndash; Parent activity meta-data to support 4.0 and lower &ndash;&gt;
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".RegisterActivity" /-->
-    </activity>
+            android:name=".RegisterActivity"
+            android:label="@string/register"
+            android:theme="@style/AppTheme">
+        </activity>
         <activity
             android:name=".EditActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/action_edit">
-            <!--android:parentActivityName=".MainActivity" >
-            &lt;!&ndash; Parent activity meta-data to support 4.0 and lower &ndash;&gt;
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".RegisterActivity" /-->
-    </activity>
+            android:label="@string/action_edit"
+            android:theme="@style/AppTheme">
+        </activity>
         <activity
-        android:name=".NewUserActivity"
-        android:theme="@style/AppTheme"
-        android:label="@string/action_add"
-        android:parentActivityName=".MainActivity"
-            tools:targetApi="jelly_bean">
+            android:name=".NewUserActivity"
+            android:label="@string/action_add"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-    </activity>
+        </activity>
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
         </activity>
+
         <provider
             android:name=".data.RegisterProvider"
             android:authorities="com.android.al3arrab.universalapp"
             android:exported="false" />
+
         <activity
             android:name=".MusicPlayer.PlayerActivity"
             android:label="@string/allSongs"
@@ -92,8 +99,8 @@
         </activity>
         <activity
             android:name=".MusicPlayer.MyPlayer"
-            android:label="@string/now"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/now"
             android:parentActivityName=".MusicPlayer.PlayerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -107,7 +114,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MusicPlayer.MyPlayer" />
         </activity>
-        <!--<activity
+        <!--
+        <activity
             android:name=".Youtube.VideoListActivity"
             android:label="@string/you_tube"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -117,33 +125,40 @@
                 android:value=".MainActivity" />
             <meta-data android:name="@string/minVersion" android:value="13"/>
             <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
-        </activity>-->
+        </activity>
+        -->
         <activity
             android:name=".Youtube.YouTubeActivity"
-            android:label="@string/you_tube"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/you_tube"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-            <meta-data android:name="@string/minVersion" android:value="13"/>
-            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+            <meta-data
+                android:name="@string/minVersion"
+                android:value="13" />
+            <meta-data
+                android:name="@string/isLaunchableActivity"
+                android:value="true" />
         </activity>
         <activity
             android:name=".Dama.DamaActivity"
             android:label="@string/dama"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".Scanner.FullScannerActivity"
-            android:theme="@style/AppOverlayTheme"
-            android:uiOptions="splitActionBarWhenNarrow"
+        <activity
+            android:name=".Scanner.FullScannerActivity"
             android:label="@string/scanner_activity"
-            android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.UI_OPTIONS"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppOverlayTheme"
+            android:uiOptions="splitActionBarWhenNarrow">
+            <meta-data
+                android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -157,6 +172,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Scanner.FullScannerActivity" />
         </activity>
+
+        <receiver android:name=".NowPlayingWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/now_playing_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

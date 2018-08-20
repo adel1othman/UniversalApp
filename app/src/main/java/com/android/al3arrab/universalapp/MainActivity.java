@@ -33,10 +33,14 @@ import android.widget.Toast;
 
 import com.android.al3arrab.universalapp.Dama.DamaActivity;
 import com.android.al3arrab.universalapp.MusicPlayer.PlayerActivity;
+import com.android.al3arrab.universalapp.MusicPlayer.Song;
+import com.android.al3arrab.universalapp.MusicPlayer.SongsList;
 import com.android.al3arrab.universalapp.Scanner.FullScannerActivity;
 import com.android.al3arrab.universalapp.Youtube.YouTubeActivity;
 import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
 import com.android.al3arrab.universalapp.data.RegisterDbHelper;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,13 +51,14 @@ public class MainActivity extends AppCompatActivity
     private Uri mCurrentUserUri;
     private static final int ZXING_CAMERA_PERMISSION = 1;
     private Class<?> mClss;
+    public static List<Song> songs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -127,6 +132,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
             startActivity(intent);
         }
+
+        songs = SongsList.getAllSongs(this);
     }
 
     @Override
@@ -362,5 +369,15 @@ public class MainActivity extends AppCompatActivity
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }

@@ -151,4 +151,6 @@
     <integer name="viewfinder_border_length">60</integer>
     <string name="change_user">Scanned code is assigned to another user, do you want to activate this user?</string>
     <string name="assign">Assign code to user</string>
+    <string name="appwidget_text">Universal App Widget</string>
+    <string name="main_widget_text">Songs will appear here</string>
 </resources>
