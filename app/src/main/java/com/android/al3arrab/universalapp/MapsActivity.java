@@ -22,7 +22,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         if (TextUtils.isEmpty(getResources().getString(R.string.google_api_key))) {
-            throw new IllegalStateException("You forgot to supply a Google Maps API key");
+            throw new IllegalStateException(getResources().getString(R.string.forgot_api_key));
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -34,7 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         LatLng zagreb = new LatLng(45.815011, 15.981919);
-        mMap.addMarker(new MarkerOptions().position(zagreb).title("Marker in Zagreb"));
+        mMap.addMarker(new MarkerOptions().position(zagreb).title(getResources().getString(R.string.marker)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(zagreb));
     }
 

@@ -7,9 +7,11 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.al3arrab.universalapp.R;
 import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
 
 public class RegisterProvider extends ContentProvider {
@@ -36,7 +38,7 @@ public class RegisterProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
@@ -56,7 +58,7 @@ public class RegisterProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
+                throw new IllegalArgumentException(getContext().getResources().getString(R.string.unknown_uri) + uri);
         }
 
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -71,36 +73,36 @@ public class RegisterProvider extends ContentProvider {
             case USERS:
                 return insertUser(uri, contentValues);
             default:
-                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+                throw new IllegalArgumentException(getContext().getResources().getString(R.string.insert_not_supported) + uri);
         }
     }
 
     private Uri insertUser(Uri uri, ContentValues values) {
         String name = values.getAsString(UserEntry.COLUMN_USER_NAME);
         if (name == null) {
-            throw new IllegalArgumentException("You missed name");
+            throw new IllegalArgumentException(getContext().getResources().getString(R.string.missed_name));
         }
 
         String surname = values.getAsString(UserEntry.COLUMN_USER_SURNAME);
         if (surname == null) {
-            throw new IllegalArgumentException("You missed surname");
+            throw new IllegalArgumentException(getContext().getResources().getString(R.string.missed_surname));
         }
 
         String email = values.getAsString(UserEntry.COLUMN_USER_EMAIL);
         if (email == null) {
-            throw new IllegalArgumentException("You missed email");
+            throw new IllegalArgumentException(getContext().getResources().getString(R.string.missed_email));
         }
 
         String password = values.getAsString(UserEntry.COLUMN_USER_PASSWORD);
         if (password == null) {
-            Toast.makeText(getContext(), "You missed password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getContext().getResources().getString(R.string.missed_password), Toast.LENGTH_SHORT).show();
         }
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         long id = database.insert(UserEntry.TABLE_NAME, null, values);
         if (id == -1) {
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            Log.e(LOG_TAG, getContext().getResources().getString(R.string.insert_user_failed) + uri);
             return null;
         }
 
@@ -121,7 +123,7 @@ public class RegisterProvider extends ContentProvider {
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return updateUser(uri, contentValues, selection, selectionArgs);
             default:
-                throw new IllegalArgumentException("Update is not supported for " + uri);
+                throw new IllegalArgumentException(getContext().getResources().getString(R.string.update_user_ex) + uri);
         }
     }
 
@@ -129,28 +131,28 @@ public class RegisterProvider extends ContentProvider {
         if (values.containsKey(UserEntry.COLUMN_USER_NAME)) {
             String name = values.getAsString(UserEntry.COLUMN_USER_NAME);
             if (name == null) {
-                Toast.makeText(getContext(), "You missed name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getResources().getString(R.string.missed_name), Toast.LENGTH_SHORT).show();
             }
         }
 
         if (values.containsKey(UserEntry.COLUMN_USER_SURNAME)) {
             String surname = values.getAsString(UserEntry.COLUMN_USER_SURNAME);
             if (surname == null) {
-                Toast.makeText(getContext(), "You missed surname", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getResources().getString(R.string.missed_surname), Toast.LENGTH_SHORT).show();
             }
         }
 
         if (values.containsKey(UserEntry.COLUMN_USER_EMAIL)) {
             String email = values.getAsString(UserEntry.COLUMN_USER_EMAIL);
             if (email == null) {
-                Toast.makeText(getContext(), "You missed email", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getResources().getString(R.string.missed_email), Toast.LENGTH_SHORT).show();
             }
         }
 
         if (values.containsKey(UserEntry.COLUMN_USER_PASSWORD)) {
             String password = values.getAsString(UserEntry.COLUMN_USER_PASSWORD);
             if (password == null) {
-                Toast.makeText(getContext(), "You missed password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getResources().getString(R.string.missed_password), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -186,7 +188,7 @@ public class RegisterProvider extends ContentProvider {
                 rowsDeleted = database.delete(UserEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+                throw new IllegalArgumentException(getContext().getResources().getString(R.string.delete_not_supported) + uri);
         }
 
         if (rowsDeleted != 0) {
@@ -205,7 +207,8 @@ public class RegisterProvider extends ContentProvider {
             case USER_ID:
                 return UserEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+                throw new IllegalStateException(getContext().getResources().getString(R.string.get_type_ex_1) + uri
+                        + getContext().getResources().getString(R.string.get_type_ex_2) + match);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.android.al3arrab.universalapp.Dama;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -116,6 +117,7 @@ public class MovementLogic implements View.OnTouchListener {
         maxBottom = maxTop + mParent.getHeight();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (isDragging) {
@@ -365,7 +367,7 @@ public class MovementLogic implements View.OnTouchListener {
 
         for (String item:win) {
             if (item.equals(blueColumn) || item.equals(blueRow)){
-                Toast.makeText(mParent.getContext(),"Blue WIN",Toast.LENGTH_LONG).show();
+                Toast.makeText(mParent.getContext(), mParent.getContext().getResources().getString(R.string.blue_win),Toast.LENGTH_LONG).show();
                 gameFinished = true;
                 IsAllInside = false;
                 DialogInterface.OnClickListener discardButtonClickListener =
@@ -380,7 +382,7 @@ public class MovementLogic implements View.OnTouchListener {
                 //break;
             }
             if (item.equals(greenColumn) || item.equals(greenRow)){
-                Toast.makeText(mParent.getContext(),"Green WIN",Toast.LENGTH_LONG).show();
+                Toast.makeText(mParent.getContext(), mParent.getContext().getResources().getString(R.string.green_win),Toast.LENGTH_LONG).show();
                 gameFinished = true;
                 IsAllInside = false;
                 DialogInterface.OnClickListener discardButtonClickListener =
@@ -458,7 +460,7 @@ public class MovementLogic implements View.OnTouchListener {
                     slotPos[4] = true;
                     slotPos[6] = true;
                     slotPos[8] = true;
-                }else if (i == 8){
+                }else {
                     slotPos[5] = true;
                     slotPos[7] = true;
                 }

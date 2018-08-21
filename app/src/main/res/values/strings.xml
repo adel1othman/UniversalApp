@@ -153,4 +153,30 @@
     <string name="assign">Assign code to user</string>
     <string name="appwidget_text">Universal App Widget</string>
     <string name="main_widget_text">Songs will appear here</string>
+
+    <string name="preference_change_error">Please select a number between 0.1 and 3</string>
+    <string name="missed_name">You missed name</string>
+    <string name="missed_surname">You missed surname</string>
+    <string name="missed_email">You missed email</string>
+    <string name="missed_password">You missed password</string>
+    <string name="update_user_ex">Update is not supported for </string>
+    <string name="insert_user_failed">Failed to insert row for </string>
+    <string name="insert_not_supported">Insertion is not supported for </string>
+    <string name="delete_not_supported">Deletion is not supported for </string>
+    <string name="unknown_uri">Cannot query unknown URI </string>
+    <string name="get_type_ex_1">Unknown URI </string>
+    <string name="get_type_ex_2"> with match </string>
+    <string name="audio_permission">Permission for audio not granted. Visualizer can\'t run.</string>
+    <string name="blue_win">Blue Win</string>
+    <string name="green_win">Green Win</string>
+    <string name="camera_permission">Please grant camera permission to use the QR Scanner</string>
+    <string name="et_enter_password">Enter Your Password</string>
+    <string name="scanned_code">Scanned code </string>
+    <string name="code_current_user"> is assigned to currently active user</string>
+    <string name="code_another_user"> is assigned to another user, do you want to activate this user?</string>
+    <string name="scan_results">Scan Results</string>
+    <string name="format_selector">format_selector</string>
+    <string name="read_ext_storage">Can\'t get songs, permission denied!</string>
+    <string name="forgot_api_key">You forgot to supply a Google Maps API key</string>
+    <string name="marker">Marker in Zagreb</string>
 </resources>

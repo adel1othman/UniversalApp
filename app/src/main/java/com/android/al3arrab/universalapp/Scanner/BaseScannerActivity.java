@@ -1,5 +1,6 @@
 package com.android.al3arrab.universalapp.Scanner;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,9 +9,10 @@ import android.view.MenuItem;
 import com.android.al3arrab.universalapp.R;
 
 
+@SuppressLint("Registered")
 public class BaseScannerActivity extends AppCompatActivity {
     public void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar ab = getSupportActionBar();
         if(ab != null) {

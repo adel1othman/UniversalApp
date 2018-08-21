@@ -22,12 +22,14 @@ import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    public static final String PROFILE_IMAGE_KEY = "PROFILE_IMAGE_KEY";
     private static final int USER_LOADER = 0;
     UserCursorAdapter mCursorAdapter;
 
     private EditText mNameEditText, mSurnameEditText, mEmailEditText, mPassEditText;
     private ImageView myImg;
     private String imagePath = "";
+    private Uri imgUri;
     public static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
@@ -111,6 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
                 Uri uri = data.getData();
+                imgUri = uri;
                 imagePath = uri.toString();
                 Log.d("myImg", "onActivityCreated URI: " + imagePath);
                 Utility.setPic(getBaseContext(), myImg, uri);
@@ -118,7 +121,32 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-   /*@Override
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(PROFILE_IMAGE_KEY, imgUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null){
+            imgUri = savedInstanceState.getParcelable(PROFILE_IMAGE_KEY);
+
+            if (imgUri != null){
+                Utility.setPic(getBaseContext(), myImg, imgUri);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    /*@Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 UserEntry._ID,

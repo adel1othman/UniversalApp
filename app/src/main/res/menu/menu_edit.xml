@@ -8,11 +8,11 @@
         android:id="@+id/action_cancel"
         android:title="@string/action_cancel"
         android:icon="@drawable/ic_cancel"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_save"
         android:title="@string/action_save"
         android:icon="@drawable/ic_done"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

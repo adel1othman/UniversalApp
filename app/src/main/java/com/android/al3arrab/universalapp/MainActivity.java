@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity
     public static int currentUserID = -1;
     private ListUsersCursorAdapter mCursorAdapter;
     private Uri mCurrentUserUri;
-    private static final int ZXING_CAMERA_PERMISSION = 1;
+    private static final int ZXING_CAMERA_PERMISSION = 2;
+    private static final int READ_EXTERNAL_STORAGE_PERMISSION = 1;
     private Class<?> mClss;
     public static List<Song> songs;
 
@@ -133,7 +134,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        songs = SongsList.getAllSongs(this);
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (result != PackageManager.PERMISSION_GRANTED) {
+            Utility.verifyStoragePermissions(this);
+            Toast.makeText(this, getResources().getString(R.string.read_ext_storage), Toast.LENGTH_SHORT).show();
+        } else {
+            songs = SongsList.getAllSongs(this);
+        }
     }
 
     @Override
@@ -175,7 +182,7 @@ public class MainActivity extends AppCompatActivity
                     public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
                         final Dialog dialog1 = new Dialog(dialog.getContext());
                         dialog1.setContentView(R.layout.password_dialog);
-                        dialog1.setTitle("Enter Your Password");
+                        dialog1.setTitle(getResources().getString(R.string.et_enter_password));
                         final EditText pass = dialog1.findViewById(R.id.enterPassword);
                         Button passOK = dialog1.findViewById(R.id.btnPasswordEntered);
                         passOK.setOnClickListener(new View.OnClickListener() {
@@ -253,7 +260,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -273,6 +280,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
+            case READ_EXTERNAL_STORAGE_PERMISSION:
+                for (int result:grantResults) {
+                    if (result == PackageManager.PERMISSION_GRANTED) {
+                        songs = SongsList.getAllSongs(this);
+                        return;
+                    }else {
+                        Toast.makeText(this, getResources().getString(R.string.read_ext_storage), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return;
             case ZXING_CAMERA_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if(mClss != null) {
@@ -280,7 +297,7 @@ public class MainActivity extends AppCompatActivity
                         startActivity(intent);
                     }
                 } else {
-                    Toast.makeText(this, "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.camera_permission), Toast.LENGTH_SHORT).show();
                 }
                 return;
         }
@@ -369,6 +386,16 @@ public class MainActivity extends AppCompatActivity
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (result != PackageManager.PERMISSION_GRANTED) {
+            Utility.verifyStoragePermissions(this);
+        } else {
+            songs = SongsList.getAllSongs(this);
+        }
     }
 
     @Override

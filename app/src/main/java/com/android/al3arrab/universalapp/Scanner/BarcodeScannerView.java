@@ -1,14 +1,12 @@
 package com.android.al3arrab.universalapp.Scanner;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -282,7 +280,7 @@ public abstract class BarcodeScannerView extends FrameLayout implements Camera.P
         return false;
     }
 
-    public void toggleFlash() {
+    public void toggleFlash(View view) {
         if(mCameraWrapper != null && CameraUtils.isFlashSupported(mCameraWrapper.mCamera)) {
             Camera.Parameters parameters = mCameraWrapper.mCamera.getParameters();
             if(parameters.getFlashMode().equals(Camera.Parameters.FLASH_MODE_TORCH)) {

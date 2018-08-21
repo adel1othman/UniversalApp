@@ -33,6 +33,10 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
     private List<Song> records;
 
     public ListViewRemoteViewsFactory(Context context, Intent intent) {
+
+        if (songs == null){
+            return;
+        }
         mContext = context;
     }
 

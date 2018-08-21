@@ -24,11 +24,13 @@ import com.android.al3arrab.universalapp.data.RegisterDbHelper;
 
 public class NewUserActivity extends AppCompatActivity {
 
+    public static final String PROFILE_IMAGE_KEY = "PROFILE_IMAGE_KEY";
     private static final int USER_LOADER = 0;
     UserCursorAdapter mCursorAdapter;
 
     private EditText mNameEditText, mSurnameEditText, mEmailEditText, mPassEditText;
     private ImageView myImg;
+    private Uri imgUri;
     private String imagePath = "";
     public static final int PICK_IMAGE_REQUEST = 1;
     private RegisterDbHelper mDbHelper;
@@ -121,11 +123,37 @@ public class NewUserActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
                 Uri uri = data.getData();
+                imgUri = uri;
                 imagePath = uri.toString();
                 Log.d("myImg", "onActivityCreated URI: " + imagePath);
                 Utility.setPic(getBaseContext(), myImg, uri);
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(PROFILE_IMAGE_KEY, imgUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null){
+            imgUri = savedInstanceState.getParcelable(PROFILE_IMAGE_KEY);
+
+            if (imgUri != null){
+                Utility.setPic(getBaseContext(), myImg, imgUri);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
    /*@Override

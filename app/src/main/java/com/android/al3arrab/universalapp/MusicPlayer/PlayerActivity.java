@@ -1,10 +1,14 @@
 package com.android.al3arrab.universalapp.MusicPlayer;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.TaskStackBuilder;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,10 +19,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.al3arrab.universalapp.MainActivity;
 import com.android.al3arrab.universalapp.R;
+import com.android.al3arrab.universalapp.Utility;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import static com.android.al3arrab.universalapp.MainActivity.songs;
@@ -29,10 +35,18 @@ public class PlayerActivity extends AppCompatActivity {
     String srch;
     Button all;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (result != PackageManager.PERMISSION_GRANTED) {
+            Utility.verifyStoragePermissions(this);
+        } else {
+            songs = SongsList.getAllSongs(this);
+        }
 
         all = findViewById(R.id.btnAll);
         search = findViewById(R.id.etSearch);
@@ -52,7 +66,7 @@ public class PlayerActivity extends AppCompatActivity {
                 }else if(!s.equals("") ){
                     srch = s.toString().toLowerCase();
                     String searchingSong, searchingArtist;
-                    final ArrayList<Song> foundSongs = new ArrayList<Song>();
+                    final ArrayList<Song> foundSongs = new ArrayList<>();
 
                     for (Song item : songs){
                         if (item.hasSongName()){
@@ -143,6 +157,20 @@ public class PlayerActivity extends AppCompatActivity {
         mCursor.close();
 
         return songs;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        for (int result:grantResults) {
+            if (result == PackageManager.PERMISSION_GRANTED) {
+                songs = SongsList.getAllSongs(this);
+                return;
+            }
+        }
+
+        Toast.makeText(this, getResources().getString(R.string.read_ext_storage), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

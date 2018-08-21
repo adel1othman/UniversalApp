@@ -11,7 +11,8 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.android.al3arrab.universalapp.MusicPlayer.MyPlayer;
-import com.android.al3arrab.universalapp.MusicPlayer.PlayerActivity;
+
+import static com.android.al3arrab.universalapp.MainActivity.songs;
 
 public class NowPlayingWidget extends AppWidgetProvider {
 
@@ -19,6 +20,11 @@ public class NowPlayingWidget extends AppWidgetProvider {
     public static final String EXTRA_ITEM = "com.android.al3arrab.universalapp.EXTRA_ITEM";
 
     public void onReceive(Context context, Intent intent) {
+
+        if (songs == null){
+            return;
+        }
+
         AppWidgetManager mgr = AppWidgetManager.getInstance(context);
 
         if (intent.getAction().equals(UPDATE_SONG_ACTION)) {

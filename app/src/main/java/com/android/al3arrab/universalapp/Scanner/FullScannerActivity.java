@@ -145,12 +145,12 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
                 return true;
             case R.id.menu_formats:
                 DialogFragment fragment = FormatSelectorDialogFragment.newInstance(this, mSelectedIndices);
-                fragment.show(getSupportFragmentManager(), "format_selector");
+                fragment.show(getSupportFragmentManager(), getResources().getString(R.string.format_selector));
                 return true;
             case R.id.menu_camera_selector:
                 mScannerView.stopCamera();
                 DialogFragment cFragment = CameraSelectorDialogFragment.newInstance(this, mCameraId);
-                cFragment.show(getSupportFragmentManager(), "camera_selector");
+                cFragment.show(getSupportFragmentManager(), getResources().getString(R.string.format_selector));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -191,7 +191,8 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
                 if (rawResult.getText().equals(userCode) && currentUserID == userID){
                     assigned = true;
 
-                    String text = "Scanned code " + result + " is assigned to currently active user";
+                    String text = getResources().getString(R.string.scanned_code) + result +
+                            getResources().getString(R.string.code_current_user);
                     SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
 
                     ssBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf(result), (text.indexOf(result) + result.length()),
@@ -204,7 +205,8 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
                 }else if (rawResult.getText().equals(userCode) && currentUserID != userID){
                     assigned = true;
 
-                    String text = "Scanned code " + result + " is assigned to another user, do you want to activate this user?";
+                    String text = getResources().getString(R.string.scanned_code) + result +
+                            getResources().getString(R.string.code_another_user);
                     SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
 
                     ssBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.indexOf(result), (text.indexOf(result) + result.length()),
@@ -268,16 +270,16 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
     }
 
     public void showMessageDialog(String message) {
-        DialogFragment fragment = MessageDialogFragment.newInstance("Scan Results", message, this);
+        DialogFragment fragment = MessageDialogFragment.newInstance(getResources().getString(R.string.scan_results), message, this);
         fragment.show(getSupportFragmentManager(), "scan_results");
     }
 
     public void closeMessageDialog() {
-        closeDialog("scan_results");
+        closeDialog(getResources().getString(R.string.scan_results));
     }
 
     public void closeFormatsDialog() {
-        closeDialog("format_selector");
+        closeDialog(getResources().getString(R.string.format_selector));
     }
 
     public void closeDialog(String dialogName) {
@@ -309,9 +311,9 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
     }
 
     public void setupFormats() {
-        List<BarcodeFormat> formats = new ArrayList<BarcodeFormat>();
+        List<BarcodeFormat> formats = new ArrayList<>();
         if(mSelectedIndices == null || mSelectedIndices.isEmpty()) {
-            mSelectedIndices = new ArrayList<Integer>();
+            mSelectedIndices = new ArrayList<>();
             for(int i = 0; i < ZXingScannerView.ALL_FORMATS.size(); i++) {
                 mSelectedIndices.add(i);
             }

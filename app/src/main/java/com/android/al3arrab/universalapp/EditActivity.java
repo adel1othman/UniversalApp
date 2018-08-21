@@ -28,11 +28,14 @@ import com.android.al3arrab.universalapp.data.RegisterContract.UserEntry;
 
 public class EditActivity extends AppCompatActivity {
 
+    public static final String PROFILE_IMAGE_KEY = "PROFILE_IMAGE_KEY";
+
     private Uri mCurrentUserUri;
     Cursor cursor;
     ContentResolver contentResolver;
     private EditText mNameEditText, mSurnameEditText, mEmailEditText, mPassEditText;
     private ImageView myImg;
+    private Uri imgUri;
 
     String userName, userSurname, userEmail, userPassword, userImage;
     private String imagePath = "";
@@ -238,10 +241,36 @@ public class EditActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
                 Uri uri = data.getData();
+                imgUri = uri;
                 imagePath = uri.toString();
                 Log.d("imagePath", "onActivityCreated URI: " + imagePath);
                 Utility.setPic(this, myImg, uri);
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(PROFILE_IMAGE_KEY, imgUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null){
+            imgUri = savedInstanceState.getParcelable(PROFILE_IMAGE_KEY);
+
+            if (imgUri != null){
+                Utility.setPic(getBaseContext(), myImg, imgUri);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

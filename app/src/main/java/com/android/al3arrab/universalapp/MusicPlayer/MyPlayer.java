@@ -1,6 +1,7 @@
 package com.android.al3arrab.universalapp.MusicPlayer;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,7 +36,6 @@ import com.android.al3arrab.universalapp.MusicPlayer.Visualizer.SettingsActivity
 import com.android.al3arrab.universalapp.R;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static com.android.al3arrab.universalapp.MainActivity.songs;
@@ -191,6 +191,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 skBarProgress = progress;
@@ -331,7 +332,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
                     mAudioInputReader = new AudioInputReader(mVisualizerView, this, mMediaPlayer);
 
                 } else {
-                    Toast.makeText(this, "Permission for audio not granted. Visualizer can't run.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getBaseContext().getResources().getString(R.string.audio_permission), Toast.LENGTH_LONG).show();
                     finish();
                 }
             }
@@ -354,6 +355,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private void onSongChanged(){
         releaseMediaPlayer();
         if (songs.get(songIndex).hasSongName()){
@@ -391,6 +393,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
     }
 
     private Runnable UpdateSongTime = new Runnable() {
+        @SuppressLint("DefaultLocale")
         public void run() {
             if (mMediaPlayer != null){
                 currentTime = mMediaPlayer.getCurrentPosition();

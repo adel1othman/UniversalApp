@@ -1,5 +1,6 @@
 package com.android.al3arrab.universalapp.Dama;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,6 +66,7 @@ public class DamaActivity extends AppCompatActivity {
         final View main = findViewById(R.id.damaMain);
         ViewTreeObserver vto = mainLayout.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @SuppressLint("ClickableViewAccessibility")
             public boolean onPreDraw() {
 
                 mainLayout.getViewTreeObserver().removeOnPreDrawListener(this);

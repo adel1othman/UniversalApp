@@ -349,8 +349,7 @@ public class YouTubeActivity extends AppCompatActivity implements OnFullscreenLi
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
-            initialize("AIzaSyD9ifawjJ9kor2K67gO2gHbwhH-XnxvyAs", this);
+            initialize(getResources().getString(R.string.google_api_key), this);
         }
 
         @Override

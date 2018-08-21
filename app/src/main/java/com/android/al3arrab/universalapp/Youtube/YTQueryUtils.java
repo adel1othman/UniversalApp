@@ -34,7 +34,7 @@ public final class YTQueryUtils {
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
 
         List<YTVideo> videos = extractFeatureFromJson(jsonResponse);
@@ -47,7 +47,7 @@ public final class YTQueryUtils {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL ", e);
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
         return url;
     }
@@ -75,7 +75,7 @@ public final class YTQueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the video JSON results.", e);
+            Log.e(LOG_TAG, e.getMessage(), e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -141,7 +141,7 @@ public final class YTQueryUtils {
                 }
             }
         } catch (JSONException e) {
-            Log.e("QueryUtils", "Problem parsing the video JSON results", e);
+            Log.e("QueryUtils: ", e.getMessage(), e);
         }
 
         return videos;
