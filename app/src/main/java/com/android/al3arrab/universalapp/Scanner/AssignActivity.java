@@ -62,7 +62,6 @@ public class AssignActivity extends AppCompatActivity {
                         String users = "SELECT * FROM users";
                         Cursor cursor = database.rawQuery(users, null);
                         mCursorAdapter = new ListUsersCursorAdapter(getBaseContext(), cursor);
-                        cursor.close();
                         usersListView.setAdapter(mCursorAdapter);
 
                         usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,8 +85,6 @@ public class AssignActivity extends AppCompatActivity {
                                                 password = mcursor.getString(idColumnIndex);
                                             } while (mcursor.moveToNext());
                                         }
-
-                                        mcursor.close();
 
                                         if (pass.getText().toString().equals(password)){
                                             mDbHelper = new RegisterDbHelper(getBaseContext());

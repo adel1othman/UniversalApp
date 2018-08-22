@@ -41,13 +41,7 @@ public class SongsList extends AppCompatActivity {
         songs.add(new Song(R.string.wayah, R.string.amr, R.raw.wayah, R.drawable.wayah));
         songs.add(new Song(R.string.zorica, R.string.mejasi, R.raw.zorica, R.drawable.zorica));
 
-        String[] myMusic = getMusic(this);
-        for (String item:myMusic) {
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-            String path = extStorageDirectory + File.separator + item;
-
-            songs.add(new Song(item, R.string.unknown_artist, path, R.drawable.unknown_music));
-        }
+        songs.addAll(getMusic(this));
 
         SongAdapter adapter = new SongAdapter(this, songs);
 
@@ -74,25 +68,38 @@ public class SongsList extends AppCompatActivity {
         });
     }
 
-    private static String[] getMusic(Context context) {
+    private static List<Song> getMusic(Context context) {
         Cursor mCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                new String[] { MediaStore.Audio.Media.DISPLAY_NAME }, null, null,
+                new String[] { MediaStore.MediaColumns.TITLE, MediaStore.MediaColumns.DATA }, null, null,
                 "LOWER(" + MediaStore.Audio.Media.TITLE + ") ASC");
 
-        int count = mCursor.getCount();
-
-        String[] songs = new String[count];
-        int i = 0;
-        if (mCursor.moveToFirst()) {
-            do {
-                songs[i] = mCursor.getString(0);
-                i++;
-            } while (mCursor.moveToNext());
+        int count = 0;
+        if (mCursor != null) {
+            count = mCursor.getCount();
         }
 
-        mCursor.close();
+        List<Song> mySongs = new ArrayList<>();
 
-        return songs;
+        if (count > 0){
+            int i = 0;
+            if (mCursor.moveToFirst()) {
+                do {
+                    String songTitle = mCursor.getString(mCursor.getColumnIndexOrThrow(MediaStore.MediaColumns.TITLE));
+
+                    String songPath = mCursor.getString(mCursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
+
+                    mySongs.add(new Song(songTitle, R.string.unknown_artist, songPath, R.drawable.unknown_music));
+
+                    i++;
+                } while (mCursor.moveToNext());
+            }
+        }
+
+        if (mCursor != null) {
+            mCursor.close();
+        }
+
+        return mySongs;
     }
 
     public static List<Song> getAllSongs(Context context){
@@ -113,13 +120,7 @@ public class SongsList extends AppCompatActivity {
         songs.add(new Song(R.string.wayah, R.string.amr, R.raw.wayah, R.drawable.wayah));
         songs.add(new Song(R.string.zorica, R.string.mejasi, R.raw.zorica, R.drawable.zorica));
 
-        String[] myMusic = getMusic(context);
-        for (String item:myMusic) {
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-            String path = extStorageDirectory + File.separator + item;
-
-            songs.add(new Song(item, R.string.unknown_artist, path, R.drawable.unknown_music));
-        }
+        songs.addAll(getMusic(context));
 
         return songs;
     }

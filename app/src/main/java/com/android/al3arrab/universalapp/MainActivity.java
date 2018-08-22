@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity
         Cursor mcursor = database.rawQuery(count, null);
         mcursor.moveToFirst();
         int icount = mcursor.getInt(0);
-        mcursor.close();
         if(icount>0){
             String qwery = "SELECT * FROM users WHERE status LIKE 'active'";
             Cursor cursor = database.rawQuery(qwery, null);
@@ -124,7 +123,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 } while (cursor.moveToNext());
             }
-            cursor.close();
 
             mCurrentUserUri = ContentUris.withAppendedId(UserEntry.CONTENT_URI, currentUserID);
 

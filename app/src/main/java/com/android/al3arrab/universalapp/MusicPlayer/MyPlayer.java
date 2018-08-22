@@ -215,28 +215,6 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         setupPermissions();
     }
 
-    private String[] getMusic() {
-        final Cursor mCursor = managedQuery(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                new String[] { MediaStore.Audio.Media.DISPLAY_NAME }, null, null,
-                "LOWER(" + MediaStore.Audio.Media.TITLE + ") ASC");
-
-        int count = mCursor.getCount();
-
-        String[] songs = new String[count];
-        int i = 0;
-        if (mCursor.moveToFirst()) {
-            do {
-                songs[i] = mCursor.getString(0);
-                i++;
-            } while (mCursor.moveToNext());
-        }
-
-        //mCursor.close();
-
-        return songs;
-    }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -361,7 +339,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         if (songs.get(songIndex).hasSongName()){
             song.setText(songs.get(songIndex).getmSongName());
         }else {
-            String SongName = songs.get(songIndex).getmStringSongName().replace(".mp3", "");
+            String SongName = songs.get(songIndex).getmStringSongName();
             song.setText(SongName);
         }
 
@@ -371,7 +349,7 @@ public class MyPlayer extends AppCompatActivity implements SharedPreferences.OnS
         if (songs.get(songIndex).hasAudioResource()){
             mMediaPlayer = MediaPlayer.create(this, songs.get(songIndex).getmAudioResourceId());
         }else {
-            Uri mySong = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + songs.get(songIndex).getmStringSongName());
+            Uri mySong = Uri.parse(songs.get(songIndex).getmAudioResourcePath());
             mMediaPlayer = MediaPlayer.create(this, mySong);
         }
 
